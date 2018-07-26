@@ -1,0 +1,9 @@
+.app-content {
+  margin: 80px 5px 5px;
+}
+
+.app-toolbar{
+  position: fixed;
+  z-index: 100;
+  top: 0;
+}

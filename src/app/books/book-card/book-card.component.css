@@ -1,0 +1,11 @@
+.book-card {
+  margin: 10px;
+}
+
+.book-card__img {
+  width: 100%;
+}
+
+.book-card__title {
+  display: flex;
+}
