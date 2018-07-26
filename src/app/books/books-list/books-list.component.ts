@@ -12,10 +12,9 @@ import {BookModalMode} from '../models/book-modal-mode';
 })
 export class BooksListComponent {
   books: Book[];
+  activeDialog: MatDialogRef<BookModalComponent>;
 
   @ViewChild('deleteBookTemplate') deleteBookTemplate: TemplateRef<any>;
-
-  activeDialog: MatDialogRef<BookModalComponent>;
 
   constructor(public breakpointObserver: BreakpointObserver,
               public dialog: MatDialog) {
@@ -57,16 +56,27 @@ export class BooksListComponent {
     this.activeDialog = this.dialog.open(BookModalComponent, {
       data: {book, mode: BookModalMode.Edit}
     });
+
+    this.activeDialog
+      .afterClosed()
+      .subscribe(this.onModalClose.bind(this));
+  }
+
+  onModalClose(book) {
+    console.log('closed', book);
   }
 
   onNew() {
     this.activeDialog = this.dialog.open(BookModalComponent, {
       data: {mode: BookModalMode.New}
     });
+
+    this.activeDialog
+      .afterClosed()
+      .subscribe(this.onModalClose.bind(this));
   }
 
   onDelete(book: Book) {
-    console.log('delete', book);
     this.dialog.open(this.deleteBookTemplate, {
       data: {book}
     });
