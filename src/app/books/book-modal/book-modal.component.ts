@@ -4,13 +4,14 @@ import {Book} from '../models/book';
 import {BookModalMode} from '../models/book-modal-mode';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CamelCasePipe} from '../pipes/camel-case.pipe';
+import {AlphaNumericPipe} from '../pipes/alpha-numeric.pipe';
 
 @Component({
   selector: 'app-book-modal',
   templateUrl: './book-modal.component.html',
   styleUrls: ['./book-modal.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CamelCasePipe]
+  providers: [CamelCasePipe, AlphaNumericPipe]
 })
 export class BookModalComponent implements OnInit {
   bookForm: FormGroup;
@@ -19,19 +20,27 @@ export class BookModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { book: Book, mode: BookModalMode },
     public dialogRef: MatDialogRef<BookModalComponent>,
     public formBuilder: FormBuilder,
-    public camelCasePipe: CamelCasePipe) {
+    public camelCasePipe: CamelCasePipe,
+    public alphaNumericPipe: AlphaNumericPipe) {
 
     this.buildForm(data.book);
   }
 
   ngOnInit(): void {
+    this.transformTitle();
+  }
+
+  transformTitle() {
     this
       .titleFormControl
       .valueChanges
       .subscribe(value => {
+        let transformedValue = this.camelCasePipe.transform(value);
+        transformedValue = this.alphaNumericPipe.transform(transformedValue);
+
         this
           .titleFormControl
-          .setValue(this.camelCasePipe.transform(value), {
+          .setValue(transformedValue, {
             emitEvent: false,
             onlySelf: true
           });
