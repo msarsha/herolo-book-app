@@ -2,9 +2,9 @@ import {NgModule} from '@angular/core';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatButtonModule,
-  MatCardModule,
+  MatCardModule, MatDatepickerModule,
   MatDialogModule,
-  MatFormFieldModule, MatInputModule
+  MatFormFieldModule, MatInputModule, MatNativeDateModule
 } from '@angular/material';
 import {MatDialogConfig} from '@angular/material/dialog/typings/dialog-config';
 
@@ -19,14 +19,18 @@ const matDialogDefaultOptions: MatDialogConfig = {
     MatButtonModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports: [
     MatCardModule,
     MatButtonModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: matDialogDefaultOptions}

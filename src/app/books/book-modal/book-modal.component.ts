@@ -1,29 +1,33 @@
-import {Component, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Book} from '../models/book';
 import {BookModalMode} from '../models/book-modal-mode';
-import {FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-book-modal',
   templateUrl: './book-modal.component.html',
   styleUrls: ['./book-modal.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BookModalComponent {
-  bookForm;
+  bookForm: FormGroup;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { book: Book, mode: BookModalMode },
     public dialogRef: MatDialogRef<BookModalComponent>,
     public formBuilder: FormBuilder) {
 
-    const {book} = this.data;
+    this.buildForm(data.book);
+  }
 
+  buildForm(book) {
     this.bookForm = this
       .formBuilder
       .group({
-        title: [this.isNewMode ? '' : book.title, Validators.required],
-        author: [this.isNewMode ? '' : book.author, Validators.required]
+        title: [this.isNewMode ? '' : book.title, [Validators.required, Validators.pattern('')]],
+        author: [this.isNewMode ? '' : book.author, Validators.required],
+        publishDate: [this.isNewMode ? new Date() : book.publishDate, [Validators.required]]
       });
   }
 
@@ -43,5 +47,17 @@ export class BookModalComponent {
 
   get isNewMode(): boolean {
     return this.data.mode === BookModalMode.New;
+  }
+
+  get titleFormControl(): FormControl {
+    return this.bookForm.get('title') as FormControl;
+  }
+
+  get authorFormControl(): FormControl {
+    return this.bookForm.get('author') as FormControl;
+  }
+
+  get publishDateFormControl(): FormControl {
+    return this.bookForm.get('publishDate') as FormControl;
   }
 }
