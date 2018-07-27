@@ -13,7 +13,7 @@ export class CamelCasePipe implements PipeTransform {
         if (index === 0) {
           return c.toUpperCase();
         }
-        return c;
+        return c.toLowerCase();
       }).join('');
     }).join(' ');
   }
