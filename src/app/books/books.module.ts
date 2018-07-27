@@ -20,7 +20,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     BookCardComponent,
     BookModalComponent
   ],
-  providers: [],
+  providers: [
+  ],
   entryComponents: [
     BookModalComponent
   ]

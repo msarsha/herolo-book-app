@@ -3,31 +3,48 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Book} from '../models/book';
 import {BookModalMode} from '../models/book-modal-mode';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {CamelCasePipe} from '../pipes/camel-case.pipe';
 
 @Component({
   selector: 'app-book-modal',
   templateUrl: './book-modal.component.html',
   styleUrls: ['./book-modal.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CamelCasePipe]
 })
-export class BookModalComponent {
+export class BookModalComponent implements OnInit {
   bookForm: FormGroup;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { book: Book, mode: BookModalMode },
     public dialogRef: MatDialogRef<BookModalComponent>,
-    public formBuilder: FormBuilder) {
+    public formBuilder: FormBuilder,
+    public camelCasePipe: CamelCasePipe) {
 
     this.buildForm(data.book);
+  }
+
+  ngOnInit(): void {
+    this
+      .titleFormControl
+      .valueChanges
+      .subscribe(value => {
+        this
+          .titleFormControl
+          .setValue(this.camelCasePipe.transform(value), {
+            emitEvent: false,
+            onlySelf: true
+          });
+      });
   }
 
   buildForm(book) {
     this.bookForm = this
       .formBuilder
       .group({
-        title: [this.isNewMode ? '' : book.title, [Validators.required, Validators.pattern('')]],
+        title: [this.isNewMode ? '' : book.title, Validators.required],
         author: [this.isNewMode ? '' : book.author, Validators.required],
-        publishDate: [this.isNewMode ? new Date() : book.publishDate, [Validators.required]]
+        publishDate: [this.isNewMode ? new Date() : book.publishDate, Validators.required]
       });
   }
 
@@ -42,7 +59,7 @@ export class BookModalComponent {
 
   get title(): string {
     const {mode, book} = this.data;
-    return mode === BookModalMode.Edit ? `Editing ${book.title}` : 'New Book';
+    return mode === BookModalMode.Edit ? book.title : 'New Book';
   }
 
   get isNewMode(): boolean {
