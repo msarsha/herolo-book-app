@@ -12,13 +12,11 @@ import {
 
 export interface BooksState {
   books: Book[];
-  loaded: boolean;
   loading: boolean;
 }
 
 export const initialState: BooksState = {
   books: [],
-  loaded: false,
   loading: false
 };
 
@@ -39,7 +37,6 @@ export function booksReducer(
       return {
         ...state,
         loading: false,
-        loaded: true,
         books
       };
     }
@@ -47,7 +44,6 @@ export function booksReducer(
       return {
         ...state,
         loading: false,
-        loaded: false
       };
     }
     case ADD_BOOK: {
@@ -77,7 +73,6 @@ export function booksReducer(
         books: booksCopy
       };
     }
-
     case DELETE_BOOK: {
       const deleteBookAction = action as DeleteBook;
       const deletedBook = deleteBookAction.payload;
