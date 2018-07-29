@@ -29,6 +29,6 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>CANCEL</button>
+  <button mat-button [mat-dialog-close]="false">CANCEL</button>
   <button mat-button (click)="onSave(bookForm.value)" [disabled]="!bookForm.valid" color="primary">SAVE</button>
 </mat-dialog-actions>

@@ -38,6 +38,3 @@ import {BooksEffects} from './store/effects/book.effects';
 })
 export class BooksModule {
 }
-
-
-//https://www.googleapis.com/books/v1/volumes?q=dragonlance

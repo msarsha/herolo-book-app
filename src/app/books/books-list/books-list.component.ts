@@ -44,7 +44,9 @@ export class BooksListComponent implements OnInit {
   }
 
   onModalClose(modalResult: { book: Book, mode: BookModalMode }) {
-    if (modalResult.mode === BookModalMode.New) {
+    if (!modalResult) {
+      return;
+    } else if (modalResult.mode === BookModalMode.New) {
       this.store.dispatch(new AddBook(modalResult.book));
     } else {
       this.store.dispatch(new UpdateBook(modalResult.book));
