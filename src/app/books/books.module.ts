@@ -5,12 +5,18 @@ import {CommonModule} from '@angular/common';
 import {BookModalComponent} from './book-modal/book-modal.component';
 import {BooksMaterialModule} from './books-material.module';
 import {ReactiveFormsModule} from '@angular/forms';
+import {AlphaNumericPipe} from './pipes/alpha-numeric.pipe';
+import {CamelCasePipe} from './pipes/camel-case.pipe';
+import {StoreModule} from '@ngrx/store';
+import {booksReducer} from './store/reducers/book.reducers';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    BooksMaterialModule
+    BooksMaterialModule,
+
+    StoreModule.forRoot({books: booksReducer}),
   ],
   exports: [
     BooksListComponent
@@ -18,7 +24,9 @@ import {ReactiveFormsModule} from '@angular/forms';
   declarations: [
     BooksListComponent,
     BookCardComponent,
-    BookModalComponent
+    BookModalComponent,
+    AlphaNumericPipe,
+    CamelCasePipe
   ],
   providers: [
   ],

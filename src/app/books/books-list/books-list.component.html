@@ -1,6 +1,6 @@
 <div class="books-container">
   <app-book-card
-    *ngFor="let book of books"
+    *ngFor="let book of (books$ | async)"
     [book]="book"
     (edit)="onEdit($event)"
     (delete)="onDelete($event)">
