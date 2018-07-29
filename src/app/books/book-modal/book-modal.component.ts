@@ -5,6 +5,7 @@ import {BookModalMode} from '../models/book-modal-mode';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CamelCasePipe} from '../pipes/camel-case.pipe';
 import {AlphaNumericPipe} from '../pipes/alpha-numeric.pipe';
+import {BookValidators} from '../validators/book.validators';
 
 @Component({
   selector: 'app-book-modal',
@@ -21,7 +22,8 @@ export class BookModalComponent implements OnInit {
     public dialogRef: MatDialogRef<BookModalComponent>,
     public formBuilder: FormBuilder,
     public camelCasePipe: CamelCasePipe,
-    public alphaNumericPipe: AlphaNumericPipe) {
+    public alphaNumericPipe: AlphaNumericPipe,
+    public bookValidators: BookValidators) {
 
     this.buildForm(data.book);
   }
@@ -51,9 +53,11 @@ export class BookModalComponent implements OnInit {
     this.bookForm = this
       .formBuilder
       .group({
-        title: [this.isNewMode ? '' : book.title, Validators.required],
-        author: [this.isNewMode ? '' : book.author, Validators.required],
-        publishDate: [this.isNewMode ? new Date() : book.publishDate, Validators.required]
+        title: [this.isNewMode ? '' : book.title,
+          [Validators.required],
+          [this.bookValidators.titleNotExists(book).bind(this.bookValidators)]],
+        author: [this.isNewMode ? '' : book.author, [Validators.required]],
+        publishDate: [this.isNewMode ? new Date() : book.publishDate, [Validators.required]]
       });
   }
 

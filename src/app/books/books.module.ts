@@ -7,6 +7,7 @@ import {BooksMaterialModule} from './books-material.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {AlphaNumericPipe} from './pipes/alpha-numeric.pipe';
 import {CamelCasePipe} from './pipes/camel-case.pipe';
+import {BookValidators} from './validators/book.validators';
 
 @NgModule({
   imports: [
@@ -24,7 +25,9 @@ import {CamelCasePipe} from './pipes/camel-case.pipe';
     AlphaNumericPipe,
     CamelCasePipe
   ],
-  providers: [],
+  providers: [
+    BookValidators
+  ],
   entryComponents: [
     BookModalComponent
   ]
