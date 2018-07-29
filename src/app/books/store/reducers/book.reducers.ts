@@ -1,6 +1,5 @@
 import {Book} from '../../models/book';
-import {BookActions, LOAD_BOOKS, LOAD_BOOKS_FAIL, LOAD_BOOKS_SUCCESS} from '../actions/book.actions';
-import {createSelector} from '@ngrx/store';
+import {BookActions, LOAD_BOOKS, LOAD_BOOKS_FAIL, LOAD_BOOKS_SUCCESS, LoadBooksSuccess} from '../actions/book.actions';
 
 export interface BooksState {
   books: Book[];
@@ -9,32 +8,7 @@ export interface BooksState {
 }
 
 export const initialState: BooksState = {
-  books: [
-    {
-      id: 1,
-      author: 'Wizards of the Coast',
-      publishDate: new Date(),
-      title: 'Masters of Dragonlance Art'
-    },
-    {
-      id: 2,
-      author: 'two',
-      publishDate: new Date(),
-      title: 'two two'
-    },
-    {
-      id: 3,
-      author: 'Three',
-      publishDate: new Date(),
-      title: 'Three Three'
-    },
-    {
-      id: 4,
-      author: 'Four',
-      publishDate: new Date(),
-      title: 'Four Four'
-    }
-  ],
+  books: [],
   loaded: false,
   loading: false
 };
@@ -51,10 +25,13 @@ export function booksReducer(
       };
     }
     case LOAD_BOOKS_SUCCESS: {
+      const successAction = action as LoadBooksSuccess;
+      const books = successAction.payload;
       return {
         ...state,
         loading: false,
-        loaded: true
+        loaded: true,
+        books
       };
     }
     case LOAD_BOOKS_FAIL: {
@@ -68,24 +45,3 @@ export function booksReducer(
 
   return state;
 }
-
-const getLoaded = (state: BooksState) => state.loaded;
-const getLoading = (state: BooksState) => state.loading;
-const getBooks = (state: BooksState) => state.books;
-
-export const getBooksState = (state: any) => state.books;
-
-export const getAllBooksSelector = createSelector(
-  getBooksState,
-  getBooks
-);
-
-export const getBooksLoaded = createSelector(
-  getBooksState,
-  getLoaded
-);
-
-export const getBooksLoading = createSelector(
-  getBooksState,
-  getLoading
-);

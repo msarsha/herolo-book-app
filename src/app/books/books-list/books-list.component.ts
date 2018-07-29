@@ -1,17 +1,19 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {BreakpointObserver} from '@angular/cdk/layout';
+import {ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Book} from '../models/book';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {BookModalComponent} from '../book-modal/book-modal.component';
 import {BookModalMode} from '../models/book-modal-mode';
 import {Store} from '@ngrx/store';
-import {BooksState, getAllBooksSelector} from '../store/reducers/book.reducers';
 import {Observable} from 'rxjs';
+import {LoadBooks} from '../store/actions/book.actions';
+import {getAllBooksSelector} from '../store/reducers/book.selectors';
+import {BooksState} from '../store/reducers/book.reducers';
 
 @Component({
   selector: 'app-books-list',
   templateUrl: './books-list.component.html',
-  styleUrls: ['./books-list.component.css']
+  styleUrls: ['./books-list.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BooksListComponent implements OnInit {
   books$: Observable<Book[]>;
@@ -27,6 +29,8 @@ export class BooksListComponent implements OnInit {
     this.books$ = this
       .store
       .select(getAllBooksSelector);
+
+    this.store.dispatch(new LoadBooks());
   }
 
   onEdit(book: Book) {

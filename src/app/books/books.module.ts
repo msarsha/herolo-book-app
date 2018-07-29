@@ -9,6 +9,8 @@ import {AlphaNumericPipe} from './pipes/alpha-numeric.pipe';
 import {CamelCasePipe} from './pipes/camel-case.pipe';
 import {StoreModule} from '@ngrx/store';
 import {booksReducer} from './store/reducers/book.reducers';
+import {EffectsModule} from '@ngrx/effects';
+import {BooksEffects} from './store/effects/book.effects';
 
 @NgModule({
   imports: [
@@ -17,6 +19,7 @@ import {booksReducer} from './store/reducers/book.reducers';
     BooksMaterialModule,
 
     StoreModule.forRoot({books: booksReducer}),
+    EffectsModule.forRoot([BooksEffects])
   ],
   exports: [
     BooksListComponent
@@ -28,8 +31,7 @@ import {booksReducer} from './store/reducers/book.reducers';
     AlphaNumericPipe,
     CamelCasePipe
   ],
-  providers: [
-  ],
+  providers: [],
   entryComponents: [
     BookModalComponent
   ]

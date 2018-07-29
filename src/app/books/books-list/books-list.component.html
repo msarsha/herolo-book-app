@@ -1,3 +1,6 @@
+<div class="no-books" *ngIf="!((books$ | async)?.length)">
+  No books, add one !
+</div>
 <div class="books-container">
   <app-book-card
     *ngFor="let book of (books$ | async)"
