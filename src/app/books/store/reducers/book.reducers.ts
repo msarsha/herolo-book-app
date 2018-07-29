@@ -1,5 +1,14 @@
 import {Book} from '../../models/book';
-import {BookActions, LOAD_BOOKS, LOAD_BOOKS_FAIL, LOAD_BOOKS_SUCCESS, LoadBooksSuccess} from '../actions/book.actions';
+import {
+  ADD_BOOK,
+  AddBook,
+  BookActions,
+  LOAD_BOOKS,
+  LOAD_BOOKS_FAIL,
+  LOAD_BOOKS_SUCCESS,
+  LoadBooksSuccess,
+  UPDATE_BOOK, UpdateBook
+} from '../actions/book.actions';
 
 export interface BooksState {
   books: Book[];
@@ -39,6 +48,33 @@ export function booksReducer(
         ...state,
         loading: false,
         loaded: false
+      };
+    }
+    case ADD_BOOK: {
+      const addBookAction = action as AddBook;
+      const book = addBookAction.payload;
+
+      return {
+        ...state,
+        books: [book, ...state.books]
+      };
+    }
+    case UPDATE_BOOK: {
+      const updateBookAction = action as UpdateBook;
+      const updatedBook = updateBookAction.payload;
+
+      const existingBook = state.books.find(b => b.id === updatedBook.id);
+      if (!existingBook) {
+        return state;
+      }
+
+      const indx = state.books.indexOf(existingBook);
+      const booksCopy = [...state.books];
+      booksCopy[indx] = {...existingBook, ...updatedBook};
+
+      return {
+        ...state,
+        books: booksCopy
       };
     }
   }

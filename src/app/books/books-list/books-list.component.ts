@@ -5,7 +5,7 @@ import {BookModalComponent} from '../book-modal/book-modal.component';
 import {BookModalMode} from '../models/book-modal-mode';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {LoadBooks} from '../store/actions/book.actions';
+import {AddBook, LoadBooks, UpdateBook} from '../store/actions/book.actions';
 import {getAllBooksSelector} from '../store/reducers/book.selectors';
 import {BooksState} from '../store/reducers/book.reducers';
 
@@ -43,8 +43,12 @@ export class BooksListComponent implements OnInit {
       .subscribe(this.onModalClose.bind(this));
   }
 
-  onModalClose(book) {
-    console.log('closed', book);
+  onModalClose(modalResult: { book: Book, mode: BookModalMode }) {
+    if (modalResult.mode === BookModalMode.New) {
+      this.store.dispatch(new AddBook(modalResult.book));
+    } else {
+      this.store.dispatch(new UpdateBook(modalResult.book));
+    }
   }
 
   onNew() {
