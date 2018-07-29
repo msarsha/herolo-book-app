@@ -2,7 +2,7 @@ import {Book} from '../../models/book';
 import {
   ADD_BOOK,
   AddBook,
-  BookActions,
+  BookActions, DELETE_BOOK, DeleteBook,
   LOAD_BOOKS,
   LOAD_BOOKS_FAIL,
   LOAD_BOOKS_SUCCESS,
@@ -68,13 +68,28 @@ export function booksReducer(
         return state;
       }
 
-      const indx = state.books.indexOf(existingBook);
+      const index = state.books.indexOf(existingBook);
       const booksCopy = [...state.books];
-      booksCopy[indx] = {...existingBook, ...updatedBook};
+      booksCopy[index] = {...existingBook, ...updatedBook};
 
       return {
         ...state,
         books: booksCopy
+      };
+    }
+
+    case DELETE_BOOK: {
+      const deleteBookAction = action as DeleteBook;
+      const deletedBook = deleteBookAction.payload;
+
+      const index = state.books.findIndex(b => b.id === deletedBook.id);
+      if (index < 0) {
+        return state;
+      }
+
+      return {
+        ...state,
+        books: state.books.filter(b => b.id !== deletedBook.id)
       };
     }
   }

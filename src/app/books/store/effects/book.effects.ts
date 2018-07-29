@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {
   ADD_BOOK,
-  AddBook,
+  AddBook, DELETE_BOOK, DeleteBook,
   LOAD_BOOKS,
   LOAD_BOOKS_FAIL,
   LoadBooksFail,
@@ -62,6 +62,21 @@ export class BooksEffects {
         return this
           .booksService
           .updateBook(action.payload)
+          .pipe(
+            catchError(() => of({}))
+          );
+      })
+    )
+  );
+
+  @Effect({dispatch: false})
+  deleteBook$ = this.actions$.pipe(
+    pipe(
+      ofType(DELETE_BOOK),
+      switchMap((action: DeleteBook) => {
+        return this
+          .booksService
+          .deleteBook(action.payload)
           .pipe(
             catchError(() => of({}))
           );

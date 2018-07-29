@@ -5,7 +5,7 @@ import {BookModalComponent} from '../book-modal/book-modal.component';
 import {BookModalMode} from '../models/book-modal-mode';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {AddBook, LoadBooks, UpdateBook} from '../store/actions/book.actions';
+import {AddBook, DeleteBook, LoadBooks, UpdateBook} from '../store/actions/book.actions';
 import {getAllBooksSelector} from '../store/reducers/book.selectors';
 import {BooksState} from '../store/reducers/book.reducers';
 
@@ -62,8 +62,16 @@ export class BooksListComponent implements OnInit {
   }
 
   onDelete(book: Book) {
-    this.dialog.open(this.deleteBookTemplate, {
+    this.activeDialog = this.dialog.open(this.deleteBookTemplate, {
       data: {book}
     });
+
+    this.activeDialog
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.store.dispatch(new DeleteBook(book));
+        }
+      });
   }
 }
