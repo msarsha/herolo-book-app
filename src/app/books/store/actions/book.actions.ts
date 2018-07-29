@@ -9,7 +9,6 @@ export const ADD_BOOK = '[Books] Add New Book';
 export const DELETE_BOOK = '[Books] Delete a Book';
 export const UPDATE_BOOK = '[Books] Update a Book';
 
-
 export class LoadBooks implements Action {
   readonly type: string = LOAD_BOOKS;
 }

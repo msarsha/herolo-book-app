@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {of} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {BooksState} from '../store/reducers/book.reducers';
 import {AbstractControl} from '@angular/forms';
