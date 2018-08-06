@@ -38,7 +38,6 @@ export class BookModalComponent implements OnInit {
       .valueChanges
       .subscribe(value => {
         const transformedValue = this.camelCasePipe.transform(value);
-        // transformedValue = this.alphaNumericPipe.transform(transformedValue);
 
         this
           .titleFormControl
