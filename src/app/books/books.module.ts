@@ -6,8 +6,8 @@ import {BookModalComponent} from './book-modal/book-modal.component';
 import {BooksMaterialModule} from './books-material.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {AlphaNumericPipe} from './pipes/alpha-numeric.pipe';
-import {CamelCasePipe} from './pipes/camel-case.pipe';
 import {BookValidators} from './validators/book.validators';
+import {CapitalizePipe} from './pipes/capitalize.pipe';
 
 @NgModule({
   imports: [
@@ -23,7 +23,7 @@ import {BookValidators} from './validators/book.validators';
     BookCardComponent,
     BookModalComponent,
     AlphaNumericPipe,
-    CamelCasePipe
+    CapitalizePipe
   ],
   providers: [
     BookValidators

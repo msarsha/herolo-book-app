@@ -1,10 +1,10 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
-  name: 'uppercase'
+  name: 'capitalize'
 })
 
-export class CamelCasePipe implements PipeTransform {
+export class CapitalizePipe implements PipeTransform {
   transform(value: string, ...args: any[]): any {
     const words = value.split(' ');
     return words.map(w => {

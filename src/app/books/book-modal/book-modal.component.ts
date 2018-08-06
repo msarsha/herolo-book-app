@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Book} from '../models/book';
 import {BookModalMode} from '../models/book-modal-mode';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {CamelCasePipe} from '../pipes/camel-case.pipe';
+import {CapitalizePipe} from '../pipes/capitalize.pipe';
 import {AlphaNumericPipe} from '../pipes/alpha-numeric.pipe';
 import {BookValidators} from '../validators/book.validators';
 
@@ -12,7 +12,7 @@ import {BookValidators} from '../validators/book.validators';
   templateUrl: './book-modal.component.html',
   styleUrls: ['./book-modal.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CamelCasePipe, AlphaNumericPipe]
+  providers: [CapitalizePipe, AlphaNumericPipe]
 })
 export class BookModalComponent implements OnInit {
   bookForm: FormGroup;
@@ -21,7 +21,7 @@ export class BookModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { book: Book, mode: BookModalMode },
     public dialogRef: MatDialogRef<BookModalComponent>,
     public formBuilder: FormBuilder,
-    public camelCasePipe: CamelCasePipe,
+    public camelCasePipe: CapitalizePipe,
     public alphaNumericPipe: AlphaNumericPipe,
     public bookValidators: BookValidators) {
 
